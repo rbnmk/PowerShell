@@ -1,3 +1,14 @@
+<#
+.SYNOPSIS
+This module can be used to complete general tasks as a sysadmin in Microsoft Azure
+
+.DESCRIPTION
+Long description
+
+.NOTES
+General notes
+#>
+
 Function Get-RmAzContext {
     $azContext = Get-AzContext
     Write-Host "This is your current AzContext" -ForegroundColor Cyan
