@@ -19,8 +19,12 @@ Function Set-RmAzContext {
     Set-AzContext $azContext
 }
 Function Pip {
+    param(
+        [switch]$Clipboard = $False
+    )
     #Checks your Public IP address and copies it to your clipboard
-    $ExtIP = (Invoke-WebRequest -uri "http://ifconfig.me/ip").Content
-    Write-Host "Current external IP: [$ExtIP] [And copied to Clipboard]" -ForegroundColor Green
-    Set-Clipboard -Value $ExtIP
+    $PIP = (Invoke-WebRequest -uri "http://ifconfig.me/ip").Content
+    Write-Host "Current external IP: [$PIP]" -ForegroundColor Green
+    
+    if ($Clipboard) { Set-Clipboard -Value $PIP }
 }
