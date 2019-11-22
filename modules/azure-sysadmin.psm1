@@ -15,16 +15,12 @@ Function Get-RmAzContext {
     $azContext | Select-Object Name, Account, Subscription, Tenant | Format-List
 }
 Function Set-RmAzContext {
-    $azContext = Get-AzSubscription | Out-Gridview -PassThru
+    $azContext = Get-AzSubscription | Out-GridView -PassThru
     Set-AzContext $azContext
 }
 Function Pip {
-    param(
-        [switch]$Clipboard = $False
-    )
     #Checks your Public IP address and copies it to your clipboard
     $PIP = (Invoke-WebRequest -uri "http://ifconfig.me/ip").Content
     Write-Host "Current external IP: [$PIP]" -ForegroundColor Green
-    
-    if ($Clipboard) { Set-Clipboard -Value $PIP }
+    Set-Clipboard -Value $PIP
 }
