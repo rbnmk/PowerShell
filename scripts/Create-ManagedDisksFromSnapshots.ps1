@@ -11,6 +11,9 @@ This script is intended to be run from PowerShell in your current AzContext.
 .EXAMPLE
 .\Create-ManagedDisksFromSnapshots.ps1 -Snapshots FILESERVER_SNAPSHOT -resourceGroupName snapshotrg
 
+.EXAMPLE
+https://github.com/rbnmk/posh/blob/master/scripts/Create-ManagedDisksFromSnapshots.ps1
+
 Created by RBNMK
 #>
 
