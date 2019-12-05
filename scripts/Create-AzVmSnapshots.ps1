@@ -23,7 +23,7 @@ param(
     
 )
 
-#Remove warning message, see https://aka.ms/azps-changewarnings for more info
+#Remove Azure warning message, see https://aka.ms/azps-changewarnings for more info
 Set-Item Env:\SuppressAzurePowerShellBreakingChangeWarnings "true"
 
 ### Try to get all needed resources and declare variables
@@ -79,5 +79,5 @@ else {
 
 $Snapshots
 
-#Enable warning messages again, for more info see: https://aka.ms/azps-changewarnings
+#Enable Azure warning messages again, for more info see: https://aka.ms/azps-changewarnings
 Set-Item Env:\SuppressAzurePowerShellBreakingChangeWarnings "false"
