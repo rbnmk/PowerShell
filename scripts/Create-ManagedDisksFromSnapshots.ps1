@@ -35,7 +35,10 @@ catch {
 foreach ($existingSnapshot in $Snapshots) {
 
     Try {
-        $Snapshot = Get-AzSnapshot -ResourceGroupName $resourceGroupName -SnapshotName $existingSnapshot -ErrorAction Stop
+        $Snapshot = Get-AzSnapshot `
+            -ResourceGroupName $resourceGroupName `
+            -SnapshotName $existingSnapshot `
+            -ErrorAction Stop
     }
     catch {
         Write-Warning "$($Error[0].Exception.Message)"
@@ -43,7 +46,11 @@ foreach ($existingSnapshot in $Snapshots) {
     }
 
     Try {
-        $diskConfig = New-AzDiskConfig -Location $snapshot.Location -SourceResourceId $snapshot.Id -CreateOption Copy -ErrorAction Stop
+        $diskConfig = New-AzDiskConfig `
+            -Location $snapshot.Location `
+            -SourceResourceId $snapshot.Id `
+            -CreateOption Copy `
+            -ErrorAction Stop
     }
     catch {
         Write-Warning "$($Error[0].Exception.Message)"
@@ -52,10 +59,15 @@ foreach ($existingSnapshot in $Snapshots) {
     
 
     $diskName = Read-Host -Prompt "Enter the required diskname for the snapshot $($Snapshot.Name)"
-    #$diskName = $createdsnapshot.Split("_")[0]
+
+    #Examples how to rename the disk automatically
+    #$diskName = $createdsnapshot.Split("_")[0] 
     #$diskName = $DiskName.Replace("", "")
 
-    $managedDisk = New-AzDisk -Disk $diskConfig -ResourceGroupName $resourceGroupName -DiskName $DiskName
+    $managedDisk = New-AzDisk `
+        -Disk $diskConfig `
+        -ResourceGroupName $resourceGroupName `
+        -DiskName $DiskName
 
     Write-Host "Created $($managedDisk.Name)" -ForegroundColor Green
 

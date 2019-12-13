@@ -19,9 +19,24 @@ param(
     
 )
 
-New-AzResourceGroup -Name $resourceGroupName -Location $location
+Try {
+  New-AzResourceGroup -Name $resourceGroupName `
+    -Location $location `
+    -ErrorAction Stop
+}
+catch {
+  Write-Warning "$($Error[0].Exception.Message)"
+  Break
+}
 
-New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName `
-  -Name PowerShellDeploy$(Get-Random) `
-  -TemplateFile $TemplateFile `
-  -TemplateParameterFile $TemplateParameterFile
+Try {
+  New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName `
+    -Name PowerShellDeploy$(Get-Random) `
+    -TemplateFile $TemplateFile `
+    -TemplateParameterFile $TemplateParameterFile `
+    -ErrorAction Stop
+}
+catch {
+  Write-Warning "$($Error[0].Exception.Message)"
+  Break
+}

@@ -38,19 +38,34 @@ catch {
 }
 
 Try {
-    $virtualMachine = Get-AzVM -ResourceGroupName $resourceGroupName -Name $vmName -ErrorAction Stop
+    $virtualMachine = Get-AzVM `
+        -ResourceGroupName $resourceGroupName `
+        -Name $vmName `
+        -ErrorAction Stop
 }
 catch {
     Write-Warning "$($Error[0].Exception.Message)"
     Break
 }
 
-$vmStatus = Get-AzVM -ResourceGroupName $resourceGroupName -Name $vmName -Status
+$vmStatus = Get-AzVM `
+    -ResourceGroupName $resourceGroupName `
+    -Name $vmName `
+    -Status
+
 if ($vmStatus.Statuses.displaystatus -match "VM Running") { Write-Warning -Message "The VM is currently running. It is recommended that you turn off the VM first!" }
 
 ### Create the snapshot for the OS Disk of the supplied VM
-$Snapshot = New-AzSnapshotConfig -SourceUri $virtualMachine.StorageProfile.OsDisk.ManagedDisk.Id -Location $Location -CreateOption copy
-$osDiskSnapshot = New-AzSnapshot -Snapshot $Snapshot -SnapshotName "$($virtualMachine.StorageProfile.OsDisk.Name)_snapshot_$(Get-Date -Format filedate) " -ResourceGroupName $resourceGroupName
+$Snapshot = New-AzSnapshotConfig `
+    -SourceUri $virtualMachine.StorageProfile.OsDisk.ManagedDisk.Id `
+    -Location $Location `
+    -CreateOption copy
+
+$osDiskSnapshot = New-AzSnapshot `
+    -Snapshot $Snapshot `
+    -SnapshotName "$($virtualMachine.StorageProfile.OsDisk.Name)_snapshot_$(Get-Date -Format filedate)" `
+    -ResourceGroupName $resourceGroupName
+
 Write-Host "Creating snapshot.. $($osDiskSnapshot.Name)" -ForegroundColor Green
 
 $Snapshots += $osDiskSnapshot.Name
@@ -67,9 +82,15 @@ else {
     else {
         foreach ($datadisk in $virtualMachine.StorageProfile.DataDisks) {
 
-            $Snapshot = New-AzSnapshotConfig -SourceUri $datadisk.ManagedDisk.Id-Location $Location -CreateOption copy
+            $Snapshot = New-AzSnapshotConfig `
+                -SourceUri $datadisk.ManagedDisk.Id `
+                -Location $Location `
+                -CreateOption copy
 
-            $dataDiskSnapshot = New-AzSnapshot -Snapshot $Snapshot -SnapshotName "$($datadisk.name)_snapshot_$(Get-Date -Format filedate)" -ResourceGroupName $resourceGroupName
+            $dataDiskSnapshot = New-AzSnapshot `
+                -Snapshot $Snapshot `
+                -SnapshotName "$($datadisk.name)_snapshot_$(Get-Date -Format filedate)" `
+                -ResourceGroupName $resourceGroupName
 
             Write-Host "Creating snapshot.. $($dataDiskSnapshot.Name)" -ForegroundColor Green
             $Snapshots += $dataDiskSnapshot.Name
