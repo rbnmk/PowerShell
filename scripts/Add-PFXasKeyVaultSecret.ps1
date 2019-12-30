@@ -6,7 +6,7 @@ Script for to convert a .pfx certificate file to base64 and add it as a secret t
 This script is intended to be run from PowerShell in your current AzContext or inside your Azure DevOps to use in your ARM templates where you need to provide a base64. You can pull this information inside the deployment, from the keyvault.
 
 .EXAMPLE
-.\Create-ManagedDisksFromSnapshots.ps1 -Snapshots $Snapshots -resourceGroupName snapshotrg
+.\Add-PFXAsKeyVaultSecret.ps1 -keyVaultName keyvault01 -pfxFile c:\temp\certificate.pfx -pfxPassword 
 
 Created by RBNMK
 #>
@@ -14,8 +14,7 @@ Created by RBNMK
 param(
     [Parameter(Mandatory = $True)][string]$keyVaultName,
     [Parameter(Mandatory = $True)][string]$pfxFile,
-    [Parameter(Mandatory = $True)][securestring]$pfxPassword
-    
+    [Parameter(Mandatory = $False)][securestring]$pfxPassword
 )
 
 #Convert the PFX
@@ -28,6 +27,8 @@ catch {
     Write-Warning "$($Error[0].Exception.Message)"
     Break
 }
+
+if (!$pfxPassword) { $pfxPassword = Read-Host -AsSecureString -Prompt "Please enter the PFX password" }
 
 $base64 = [System.Convert]::ToBase64String($pfx_file)
 
