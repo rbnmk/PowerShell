@@ -7,10 +7,15 @@ You can use this to create a managed disk by using an other command after creati
 This script is intended to be run from PowerShell in your current AzContext
 
 .EXAMPLE
-$Snapshots = .\Create-AzVmSnapshots.ps1 -vmName FILESERVER -resourceGroupName Servers
+$Snapshots = .\Create-AzVmSnapshots.ps1 `
+                    -vmName FILESERVER `
+                    -resourceGroupName Servers
 
 .EXAMPLE
-$osDiskSnapshot = .\Create-AzVmSnapshots.ps1 -vmName FILESERVER -resourceGroupName Servers -osDiskOnly
+$osDiskSnapshot = .\Create-AzVmSnapshots.ps1 `
+                    -vmName FILESERVER `
+                    -resourceGroupName Servers `
+                    -osDiskOnly
 
 Created by RBNMK
 #>
