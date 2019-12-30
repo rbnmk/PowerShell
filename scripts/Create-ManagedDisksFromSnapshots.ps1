@@ -32,6 +32,9 @@ catch {
 }
 
 
+
+$Disks = @()
+
 foreach ($existingSnapshot in $Snapshots) {
 
     Try {
@@ -67,8 +70,21 @@ foreach ($existingSnapshot in $Snapshots) {
     $managedDisk = New-AzDisk `
         -Disk $diskConfig `
         -ResourceGroupName $resourceGroupName `
-        -DiskName $DiskName
+        -DiskName $DiskName `
+    | Out-Null
 
-    Write-Host "Created $($managedDisk.Name)" -ForegroundColor Green
+    $Disk = Get-AzDisk `
+        -DiskName $diskName `
+        -ResourceGroupName $resourceGroupName `
 
+    $Disks += [PSCustomObject]@{
+        Name              = $Disk.Name
+        ResourceGroupName = $Disk.ResourceGroupName
+    }
+
+    Write-Host "Created $($Disk.Name)" -ForegroundColor Green
+
+    
 }
+
+Return $Disks
