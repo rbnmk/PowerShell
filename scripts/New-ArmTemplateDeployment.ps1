@@ -15,7 +15,7 @@ param(
   [parameter(mandatory = $true)] [string] $resourceGroupName,
   [parameter(mandatory = $true)] [string] $location,
   [parameter(mandatory = $true)] [string] $TemplateFile,
-  [parameter(mandatory = $true)] [string] $TemplateParameterFile
+  [parameter(mandatory = $false)] [string] $TemplateParameterFile
     
 )
 
@@ -29,14 +29,29 @@ catch {
   Break
 }
 
-Try {
-  New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName `
-    -Name PowerShellDeploy$(Get-Random) `
-    -TemplateFile $TemplateFile `
-    -TemplateParameterFile $TemplateParameterFile `
-    -ErrorAction Stop
+if (!$TemplateParameterFile) {
+  Try {
+    New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName `
+      -Name PowerShellDeploy$(Get-Random) `
+      -TemplateFile $TemplateFile `
+      -ErrorAction Stop
+  }
+  catch {
+    Write-Warning "$($Error[0].Exception.Message)"
+    Break
+  }
+
 }
-catch {
-  Write-Warning "$($Error[0].Exception.Message)"
-  Break
+else {
+  Try {
+    New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName `
+      -Name PowerShellDeploy$(Get-Random) `
+      -TemplateFile $TemplateFile `
+      -TemplateParameterFile $TemplateParameterFile `
+      -ErrorAction Stop
+  }
+  catch {
+    Write-Warning "$($Error[0].Exception.Message)"
+    Break
+  }
 }
