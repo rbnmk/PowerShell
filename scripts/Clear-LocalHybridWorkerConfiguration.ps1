@@ -20,6 +20,8 @@ begin {
     }
     catch {
         Write-Error "$($error[0].Exception.Message)"
+        Write-Host "Stopping script. We need to stop the HealthService properly."
+        Break
     }
 
     $StoppingServiceTime = (Get-Date).AddSeconds(30)
