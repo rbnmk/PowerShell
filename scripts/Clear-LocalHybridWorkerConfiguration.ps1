@@ -46,6 +46,14 @@ process {
     }
 
     Try {
+
+        $currentuser = whoami.exe
+        $acl = Get-Acl "C:\Program Files\Microsoft Monitoring Agent\Agent\Health Service State"
+        $AccessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($currentuser, "FullControl", "Allow")
+        $acl.SetAccessRule($AccessRule)
+        $acl | Set-Acl "C:\Program Files\Microsoft Monitoring Agent\Agent\Health Service State"
+
+
         Remove-Item `
             -Path "C:\Program Files\Microsoft Monitoring Agent\Agent\Health Service State" `
             -Recurse `
@@ -63,7 +71,7 @@ process {
         $StartedServiceStatus = (Get-Service -Name HealthService).Status
     } until ($StartedServiceStatus -eq "Running" -or (New-TimeSpan -End $StartingServiceTime))
 
-    Write-Host "HealtService is now $StartedServiceStatus, SCOM monitoring will be resumed as well." -ForegroundColor Green
+    Write-Host "HealtService is now $($StartedServiceStatus.toLower()) , SCOM monitoring will be resumed as well." -ForegroundColor Green
 }
 
 
