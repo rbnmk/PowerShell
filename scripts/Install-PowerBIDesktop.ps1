@@ -33,6 +33,6 @@ else {
 #Install the MSI
 Write-Host "Installing PBI... on $ENV:COMPUTERNAME" -ForegroundColor Cyan
 Set-Location -Path $DownloadPath
-Start-Process -FilePath $PBIDownloadFullPath -Wait -ArgumentList "-quiet ACCEPT_EULA=1 INSTALLDESKTOPSHORTCUT=1 DISABLE_UPDATE_NOTIFICATION=1 LANGUAGE=en-US"
+Start-Process -FilePath '$PBIDownloadFullPath' -Wait -ArgumentList "-quiet ACCEPT_EULA=1 INSTALLDESKTOPSHORTCUT=1 DISABLE_UPDATE_NOTIFICATION=1 LANGUAGE=en-US"
 Write-Host "Installing PBI on $ENV:COMPUTERNAME completed!" -ForegroundColor Green
 #endregion MSI install
