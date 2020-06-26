@@ -23,13 +23,16 @@ if (!($PBIDownloadURL)) {
 else {
     Write-Host "Downloading the installer... $DownloadPath on $ENV:COMPUTERNAME" -ForegroundColor Cyan
     $ProgressPreference = 'SilentlyContinue'
-    Invoke-WebRequest -Uri $PBIDownloadURL -UseBasicParsing -OutFile $PBIDownloadFullPath | Out-Null
+    Invoke-WebRequest `
+        -Uri $PBIDownloadURL `
+        -UseBasicParsing `
+        -OutFile $PBIDownloadFullPath | Out-Null
     $ProgressPreference = 'Continue'
 }
 
 #Install the MSI
 Write-Host "Installing PBI... on $ENV:COMPUTERNAME" -ForegroundColor Cyan
 Set-Location -Path $DownloadPath
-Start-Process ".\PBIDesktopSetup_x64.exe" -Wait -ArgumentList "-quiet ACCEPT_EULA=1 INSTALLDESKTOPSHORTCUT=1 DISABLE_UPDATE_NOTIFICATION=1 LANGUAGE=en-US"
+Start-Process -FilePath $PBIDownloadFullPath -Wait -ArgumentList "-quiet ACCEPT_EULA=1 INSTALLDESKTOPSHORTCUT=1 DISABLE_UPDATE_NOTIFICATION=1 LANGUAGE=en-US"
 Write-Host "Installing PBI on $ENV:COMPUTERNAME completed!" -ForegroundColor Green
 #endregion MSI install
