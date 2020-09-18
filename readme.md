@@ -1,5 +1,5 @@
-Modules folder:
-This is used for my day to day modules included in my ps-profile
+PowerShell scripts with various use scenarios. Scripts are written from PSCore/7.
 
-Scripts folder:
-Folder with random scripts mostly (Azure) Powershell related.
+* Azure PowerShell
+* Azure Pipelines (Azure PowerShell task)
+* PowerShell
