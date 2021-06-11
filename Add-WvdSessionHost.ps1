@@ -175,11 +175,12 @@ function log {
 
 
 $CheckRegistry = Get-ItemProperty -Path "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\RDInfraAgent" -ErrorAction SilentlyContinue
+$CheckEventlog = Get-Eventlog -LogName Application -Newest 250 | Where-Object { $_.Source -eq "WVD-Agent" -and $_.Message -match "ENDPOINT_NOT_FOUND" }
 
-Log "Checking whether VM was Registered with RDInfraAgent"
+Log "Checking whether VM was Registered with RDInfraAgent and if connection is healthy!"
 
-if ($CheckRegistry) {
-    Log "VM was already registered with RDInfraAgent, script execution was stopped"
+if ($CheckRegistry -and !$CheckEventlog) {
+    Log "VM was already registered with RDInfraAgent and is healthy, script execution was stopped"
 }
 else {
     #Create Folder structure
