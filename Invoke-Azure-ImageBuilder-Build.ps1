@@ -72,9 +72,15 @@ Try {
                 -ResourceGroupName $imageResourceGroup
     
             $ArtifactId = $Output.ArtifactId
+
+            ### Azure DevOps
             Write-Output ("[INFO] Storing ImageTemplate in variable: ArtifactId for future reference")    
             Write-Output ("[INFO] Storing ImageTemplate in variable: $ArtifactId")    
             Write-Host  "##vso[task.setvariable variable=ArtifactIdOutput;isOutput=true]$ArtifactId"
+
+            ### Bicep/ARM Deployment script
+            $DeploymentScriptOutputs = @{}
+            $DeploymentScriptOutputs['ArtifactId'] = $ArtifactId
             exit 0
         }
         'Failed' {
