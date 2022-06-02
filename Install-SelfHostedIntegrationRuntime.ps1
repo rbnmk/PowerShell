@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param (
-    [Parameter(Mandatory = $false)]$MSIDownloadURL = "https://download.microsoft.com/download/E/4/7/E4771905-1079-445B-8BF9-8A1A075D8A10/IntegrationRuntime_5.10.7918.2.msi",
+    [Parameter(Mandatory = $false)]$MSIDownloadURL = "https://download.microsoft.com/download/E/4/7/E4771905-1079-445B-8BF9-8A1A075D8A10/IntegrationRuntime_5.17.8154.2.msi",
     [Parameter(Mandatory = $false)]$MSIDownloadPath = "C:\Temp",
     [Parameter(Mandatory = $false)]$MSIFileName = "IntegrationRuntime.msi",
     [Parameter(Mandatory = $false)]$MSIDownloadFullPath = "$MSIDownloadPath\$MSIFileName",
